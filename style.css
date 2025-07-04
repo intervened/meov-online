@@ -1,21 +1,68 @@
 body {
-  font-family: sans-serif;
-  text-align: center;
-  margin-top: 50px;
+  font-family: monospace, monospace;
+  background-color: #121212;
+  color: #ddd;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
 }
 
-input {
-  padding: 8px;
+.banner {
+  color: #00ff00;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  user-select: none;
+  text-align: center;
+}
+
+h1 {
+  color: #55ff55;
+  text-align: center;
+}
+
+h2, h3 {
+  color: #88ee88;
+}
+
+select, input[type="text"], input[type="number"] {
+  font-family: monospace;
   font-size: 16px;
+  padding: 5px;
+  background: #222;
+  border: 1px solid #444;
+  color: #eee;
+  border-radius: 3px;
 }
 
 button {
-  padding: 8px 16px;
+  background-color: #2a8f2a;
+  color: white;
+  border: none;
+  padding: 10px 18px;
   font-size: 16px;
-  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
 }
 
-#result {
-  margin-top: 20px;
-  font-weight: bold;
+button:hover {
+  background-color: #3eb13e;
 }
+
+#results {
+  font-size: 14px;
+  background-color: #222;
+  border-radius: 5px;
+}
+
+.valid {
+  color: #4CAF50;
+}
+
+.taken {
+  color: #aaa;
+}
+
+.censored {
+  color: #f
