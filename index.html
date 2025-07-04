@@ -1,16 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Roblox Username Checker</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Roblox Username Checker</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Roblox Username Checker</h1>
-  <input type="text" id="usernameInput" placeholder="Enter username" />
-  <button onclick="checkUsername()">Check</button>
-  <p id="result"></p>
+  <pre id="banner" class="banner">
+.___  ___.  _______   ______   ____    ____ 
+|   \/   | |   ____| /  __  \  \   \  /   / 
+|  \  /  | |  |__   |  |  |  |  \   \/   /  
+|  |\/|  | |   __|  |  |  |  |   \      /   
+|  |  |  | |  |____ |  `--'  |    \    /    
+|__|  |__| |_______| \______/      \__/     
+  </pre>
+  <h1>Credits to ocuz (Clemouche) :)</h1>
 
-  <script src="script.js"></script>
+  <div id="pattern-section">
+    <h2>Choose a pattern:</h2>
+    <select id="patternSelect">
+      <option value="1">X_XXX (e.g. A_BCD)</option>
+      <option value="2">XX_XX (e.g. AB_CD)</option>
+      <option value="3">XXX_X (e.g. ABC_D)</option>
+      <option value="4">1_X2X (mixed digits and letters)</option>
+      <option value="5">1X_2X (mixed digits and letters)</option>
+      <option value="6">1X2_X (mixed digits and letters)</option>
+      <option value="7">X1X2X (strict mixed)</option>
+      <option value="8">Custom pattern (L=letter, D=digit)</option>
+      <option value="9">Load usernames from .txt file</option>
+    </select>
+  </div>
+
+  <div id="customPatternContainer" style="display:none; margin-top:10px;">
+    <input type="text" id="customPatternInput" placeholder="Enter custom pattern (e.g. LLDLD)" />
+  </div>
+
+  <div id="fileInputContainer" style="display:none; margin-top:10px;">
+    <input type="file" id="fileInput" accept=".txt" />
+  </div>
+
+  <div style="margin-top:10px;">
+    <label>Number to check: <input type="number" id="numberInput" min="1" max="1000" value="10" /></label>
+  </div>
+
+  <button id="startBtn" style="margin-top:15px;">Start Checking</button>
+
+  <h3>Results:</h3>
+  <div id="results" style="white-space: pre-wrap; font-family: monospace; max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
+
+  <div style="margin-top: 20px;">
+    <button id="downloadValid">Download Valid</button>
+    <button id="downloadTaken">Download Taken</button>
+    <button id="downloadCensored">Download Censored</button>
+  </div>
+
+<script src="script.js"></script>
 </body>
 </html>
