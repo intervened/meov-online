@@ -108,4 +108,78 @@ startBtn.addEventListener("click", async () => {
       return;
     }
     const text = await files[0].text();
-    usernames = text.split(/\r?\n/).map(s => s.trim()).
+    usernames = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  } else if (choice === "8") {
+    const fmt = customPatternInput.value.trim().toUpperCase();
+    if (!fmt.match(/^[LD_]+$/)) {
+      alert("Invalid custom pattern. Use only L, D, and _");
+      return;
+    }
+    for (let i = 0; i < number; i++) {
+      usernames.push(genFromFmt(fmt));
+    }
+  } else if (patterns[choice]) {
+    for (let i = 0; i < number; i++) {
+      usernames.push(patterns[choice].gen());
+    }
+  } else {
+    alert("Invalid pattern choice");
+    return;
+  }
+
+  resultsDiv.textContent = "Checking usernames...\n";
+  for(let i=0; i<usernames.length; i++) {
+    const name = usernames[i];
+    resultsDiv.textContent += `Checking ${name}... `;
+    const code = await checkUsername(name);
+    if(code === 0) {
+      validList.push(name);
+      resultsDiv.innerHTML += `<span class="valid">[VALID]</span> Username valid: ${name}\n`;
+    } else if(code === 1) {
+      takenList.push(name);
+      resultsDiv.innerHTML += `<span class="taken">[TAKEN]</span> Username taken: ${name}\n`;
+    } else if(code === 2) {
+      censoredList.push(name);
+      resultsDiv.innerHTML += `<span class="censored">[CENSORED]</span> Username censored: ${name}\n`;
+    } else {
+      resultsDiv.innerHTML += `[ERROR] Unknown response for ${name}\n`;
+    }
+    resultsDiv.scrollTop = resultsDiv.scrollHeight;
+  }
+  resultsDiv.innerHTML += `\nDone! Results:\nValid: ${validList.length}\nTaken: ${takenList.length}\nCensored: ${censoredList.length}`;
+});
+
+async function checkUsername(username) {
+  try {
+    const res = await fetch(`${API_URL}?username=${encodeURIComponent(username)}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.code;
+  } catch (e) {
+    console.error("API error:", e);
+    return null;
+  }
+}
+
+function download(filename, text) {
+  const blob = new Blob([text], {type: "text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("downloadValid").onclick = () => {
+  if (validList.length === 0) alert("No valid usernames to download!");
+  else download("valid.txt", validList.join("\n"));
+};
+document.getElementById("downloadTaken").onclick = () => {
+  if (takenList.length === 0) alert("No taken usernames to download!");
+  else download("taken.txt", takenList.join("\n"));
+};
+document.getElementById("downloadCensored").onclick = () => {
+  if (censoredList.length === 0) alert("No censored usernames to download!");
+  else download("censored.txt", censoredList.join("\n"));
+};
